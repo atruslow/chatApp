@@ -2,6 +2,7 @@ var http = require('http');
 var fs = require('fs');
 var path = require('path');
 var mime = require('mime');
+var chatServer = require('./lib/chat_server');
 
 var cache = {};
 
@@ -16,12 +17,13 @@ var server = http.createServer(function(request,response){
 	}
 
 	var absPath = './' + filePath;
+	console.log('absPath:', absPath);
 	serveStatic(response, cache, absPath);
 
 }).listen(3000, function(){console.log('server listening on port 3000')});
 
 
-
+chatServer.listen(server);
 
 
 
@@ -46,7 +48,7 @@ function serveStatic (response, cache, absPath) {
 	} else {
 		fs.exists( absPath, function(exists) { 
 			if (exists) {
-				fs.read( absPath, function (err,data) {
+				fs.readFile( absPath, function (err,data) {
 					if (err) {
 						send404(response);
 					} else {
