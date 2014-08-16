@@ -17,7 +17,6 @@ var server = http.createServer(function(request,response){
 	}
 
 	var absPath = './' + filePath;
-	console.log('absPath:', absPath);
 	serveStatic(response, cache, absPath);
 
 }).listen(3000, function(){console.log('server listening on port 3000')});

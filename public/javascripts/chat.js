@@ -20,9 +20,9 @@ Chat.prototype.changeRoom = function ( room ) {
 }
 
 Chat.prototype.processCommand = function (command) {
-	var words = command.split('');
+	var words = command.split(' ');
 	var command = words[0]
-					.substring(1, words[0].length)
+					.substring(1)
 					.toLowerCase();
 	var message = false;
 
@@ -34,6 +34,7 @@ Chat.prototype.processCommand = function (command) {
 			break;
 		case 'nick': 
 			words.shift();
+			name = words.join(' ');
 			this.socket.emit('nameAttempt', name);
 			break;
 		default: 

@@ -13,7 +13,7 @@ function processUserInput(chatApp, socket) {
 	var systemMessage;
 
 	if ( message.charAt(0) == '/' ) {
-		systemMessage = chatApp.processCommand( message.substring(1) );
+		systemMessage = chatApp.processCommand( message );
 		if ( systemMessage ) {
 			$('#messages').append(divSystemContentElement(systemMessage));
 		}
@@ -31,7 +31,6 @@ $(document).ready(function() {
 	var chatApp = new Chat(socket);
 	socket.on('nameResult', function(result) {
 		var message;
-
 		if (result.success) {
 			message = 'You are now known as ' + result.name + '.';
 		} else {
@@ -42,11 +41,11 @@ $(document).ready(function() {
 
 	socket.on('joinResult', function(result) {
 		$('#room').text(result.room);
-		$('#message').append(divSystemContentElement('Room Changed.'));
+		$('#messages').append(divSystemContentElement('Room Changed.'));
 	});
 
 	socket.on('message', function (message) {
-		$('#messages').append(divEscapedContentElement(message));
+		$('#messages').append(divEscapedContentElement(message.text));
 	});
 
 	socket.on('rooms', function(rooms) {
